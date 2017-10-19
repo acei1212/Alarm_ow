@@ -3,12 +3,10 @@ package com.example.jack.alarm_ow;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.TabHost;
+import android.widget.Toolbar;
 
 public class MainActivity extends Activity {
 
@@ -16,37 +14,26 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar
+
+        TabHost tabHost = (TabHost)findViewById(R.id.tabHost);
+        tabHost.setup();
+
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("鬧鐘清單").setContent(R.id.tab1));
+        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("音效一覽").setContent(R.id.tab2));
+        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("About Me").setContent(R.id.tab3));
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                DialogFragment dialog = new AlarmFragment();
+                dialog.show(getFragmentManager(), "AlarmFragment");
             }
         });
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
