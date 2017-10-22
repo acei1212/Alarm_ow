@@ -7,13 +7,8 @@
     tools:context="com.example.jack.alarm_ow.MainActivity">
 
     <include layout="@layout/content_main" />
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_gravity="center|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_compass"/>
+
+
 
 
     <TabHost
@@ -31,8 +26,7 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                >
+                android:layout_weight="1">
 
 
                 <com.example.jack.alarm_ow.AlarmView
@@ -41,17 +35,22 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-
                     <ListView
                         android:id="@+id/listView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-
-
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="0dp">
                     </ListView>
 
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="@dimen/text_margin"
+                        app:backgroundTint="#FFFFFF"
+                        app:fabSize="normal"
+                        app:srcCompat="@android:drawable/ic_input_add" />
                 </com.example.jack.alarm_ow.AlarmView>
 
                 <LinearLayout
