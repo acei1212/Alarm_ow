@@ -5,9 +5,9 @@
     <application
 
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
 
@@ -19,17 +19,12 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <receiver android:name="com.domain.app.BootReceiver">
-                    <intent-filter>
-                        <action android:name="android.intent.action.BOOT_COMPLETED" />
-                    </intent-filter>
-                </receiver>
-                <receiver android:name="com.domain.app.AlarmReceiver"></receiver>
-                <service android:name="com.domain.app.AlarmService"></service>
+
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".AlarmReceiver"></receiver>
         <activity android:name=".AlarmView"></activity>
     </application>
 

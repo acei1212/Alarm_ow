@@ -172,6 +172,7 @@ public class AlarmView extends LinearLayout {
             date = Calendar.getInstance();
             date.setTimeInMillis(time);
 
+
             timeLabel = String.format("%d月%d日 %d:%d",
                     date.get(Calendar.MONTH) + 1,
                     date.get(Calendar.DAY_OF_MONTH),
