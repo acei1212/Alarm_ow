@@ -25,7 +25,6 @@ import java.util.Calendar;
  */
 
 public class AlarmView extends LinearLayout {
-    private FloatingActionButton fab;
     private ListView listView;
     private ArrayAdapter<AlarmData> adapter;
     private  static final String KEY_ALARM_LIST = "alarmlist";
@@ -60,7 +59,7 @@ public class AlarmView extends LinearLayout {
         adapter.add(new AlarmData(System.currentTimeMillis()));
         readSaveAlarmList();
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +85,8 @@ public class AlarmView extends LinearLayout {
                 return true;
             }
         });
+
+
 
 
 
