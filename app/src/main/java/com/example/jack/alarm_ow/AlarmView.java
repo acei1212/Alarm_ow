@@ -27,7 +27,7 @@ import java.util.Calendar;
 public class AlarmView extends LinearLayout {
     private ListView listView;
     private ArrayAdapter<AlarmData> adapter;
-    private  static final String KEY_ALARM_LIST = "alarmlist";
+    private static final String KEY_ALARM_LIST = "alarmlist";
     private AlarmManager alarmManager;
 
     public AlarmView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -46,7 +46,7 @@ public class AlarmView extends LinearLayout {
     }
 
     private void init() {
-    alarmManager = (AlarmManager)getContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
     }
 
     @Override
@@ -66,34 +66,37 @@ public class AlarmView extends LinearLayout {
                 addAlarm();
             }
         });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-            new AlertDialog.Builder(getContext()).setTitle("操作選項").setItems(new CharSequence[]{"刪除"}
-                    , new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case 0:
-                                deleteAlarm(position);
-                                break;
-                        }
+                new AlertDialog.Builder(getContext()).setTitle("操作選項").setItems(new CharSequence[]{"刪除"}
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        deleteAlarm(position);
+                                        break;
+                                }
 
 
-                        }
-                    }).setNegativeButton("取消",null).show();
+                            }
+                        }).setNegativeButton("取消", null).show();
                 return true;
             }
         });
 
 
-
-
-
     }
-    private void deleteAlarm(int position){ //刪除鬧鐘選項
-    adapter.remove(adapter.getItem(position));
-            saveAlarmList(); //保存刪除後記錄
+
+    private void deleteAlarm(int position) { //刪除鬧鐘選項
+        AlarmData ad = adapter.getItem(position);
+        adapter.remove(ad);
+        saveAlarmList(); //保存刪除後記錄
+        alarmManager.cancel(PendingIntent.getBroadcast(getContext(),
+                ad.getId(),
+                new Intent(getContext(),
+                        AlarmReceiver.class), 0));
 
     }
 
@@ -108,8 +111,8 @@ public class AlarmView extends LinearLayout {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
-                        calendar.set(Calendar.SECOND,0);
-                        calendar.set(Calendar.MILLISECOND,0);
+                        calendar.set(Calendar.SECOND, 0);
+                        calendar.set(Calendar.MILLISECOND, 0);
                         Calendar currentTime = Calendar.getInstance();
 
                         if (calendar.getTimeInMillis() <= currentTime.getTimeInMillis()) {
@@ -117,10 +120,12 @@ public class AlarmView extends LinearLayout {
                             //設定若 新增時間 > 現在時間為正常，< 現在時間便多加1天)
                         }
 
-                        adapter.add(new AlarmData(calendar.getTimeInMillis())); //取值至adapter
+                        AlarmData ad = new AlarmData(calendar.getTimeInMillis());
+                        adapter.add(ad);
                         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                                calendar.getTimeInMillis(),5*60*1000,
-                                PendingIntent.getBroadcast(getContext(),0,new Intent(getContext(),AlarmReceiver.class), 0));
+                                ad.getTime(),
+                                5 * 60 * 1000,
+                                PendingIntent.getBroadcast(getContext(), ad.getId(), new Intent(getContext(), AlarmReceiver.class), 0));
 
                         saveAlarmList();
 
@@ -129,41 +134,40 @@ public class AlarmView extends LinearLayout {
     }
 
     private void saveAlarmList() {
-        SharedPreferences.Editor editor = getContext().getSharedPreferences(AlarmView.class.getName(),Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getContext().getSharedPreferences(AlarmView.class.getName(), Context.MODE_PRIVATE).edit();
 
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < adapter.getCount(); i++) {
             sb.append(adapter.getItem(i).getTime()).append(","); //間格中加","
         }
 
-        if (sb.length()>1){ //避免清單歸零時，跳出error
+        if (sb.length() > 1) { //避免清單歸零時，跳出error
 
-            String content = sb.toString().substring(0,sb.length()-1); //去掉最後一個","
-            editor.putString(KEY_ALARM_LIST,content);
+            String content = sb.toString().substring(0, sb.length() - 1); //去掉最後一個","
+            editor.putString(KEY_ALARM_LIST, content);
 
             System.out.println(content);
 
-        }else {
-            editor.putString(KEY_ALARM_LIST,null);
+        } else {
+            editor.putString(KEY_ALARM_LIST, null);
         }
 
         editor.commit();
     }
 
-    private void readSaveAlarmList(){
-    SharedPreferences sp = getContext().getSharedPreferences(AlarmView.class.getName(), Context.MODE_PRIVATE);
-        String content = sp.getString(KEY_ALARM_LIST,null);
+    private void readSaveAlarmList() {
+        SharedPreferences sp = getContext().getSharedPreferences(AlarmView.class.getName(), Context.MODE_PRIVATE);
+        String content = sp.getString(KEY_ALARM_LIST, null);
 
-        if (content != null){
+        if (content != null) {
             String[] timeString = content.split(",");
-            for(String string : timeString){
+            for (String string : timeString) {
                 adapter.add(new AlarmData(Long.parseLong(string)));
             }
         }
 
 
     }
-
 
 
     private static class AlarmData {  //鬧鐘格式
@@ -190,6 +194,11 @@ public class AlarmView extends LinearLayout {
         public String toString() {
             return getTimeLabel();
         }
+
+        public int getId() {
+            return (int) (getTime() / 1000 / 60);
+        }
+
 
         public String getTimeLabel() {
             return timeLabel;
