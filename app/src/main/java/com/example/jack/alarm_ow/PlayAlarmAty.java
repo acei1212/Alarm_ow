@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 
 public class PlayAlarmAty extends Activity {
+
+
     private MediaPlayer mp;
 
     @Override
@@ -12,14 +14,18 @@ public class PlayAlarmAty extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_alarm_aty);
 
-    mp= MediaPlayer.create(this,R.raw.abc);
-    mp.start();
+        mp = MediaPlayer.create(this, R.raw.abc);
+        mp.setLooping(true); //重覆播放
+        mp.start();
+
 
     }
 
+
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
+        mp.stop();
         finish();
     }
 
@@ -29,4 +35,5 @@ public class PlayAlarmAty extends Activity {
         mp.stop();
         mp.release();
     }
+
 }
