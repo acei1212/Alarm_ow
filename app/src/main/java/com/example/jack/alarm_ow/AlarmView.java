@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -100,7 +101,7 @@ public class AlarmView extends LinearLayout {
 
     }
 
-    private void addAlarm() {   //新增鬧鐘
+    public void addAlarm() {   //新增鬧鐘
         Calendar c = Calendar.getInstance();
 
         new TimePickerDialog(getContext(),
@@ -128,6 +129,10 @@ public class AlarmView extends LinearLayout {
                                 PendingIntent.getBroadcast(getContext(), ad.getId(), new Intent(getContext(), AlarmReceiver.class), 0));
 
                         saveAlarmList();
+
+
+                        String tmps = hourOfDay+":"+minute;
+                        Toast.makeText(getContext(), "設定鬧鐘時間為" + tmps , Toast.LENGTH_SHORT).show();
 
                     }
                 }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show();

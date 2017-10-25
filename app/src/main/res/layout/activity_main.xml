@@ -9,8 +9,6 @@
     <include layout="@layout/content_main" />
 
 
-
-
     <TabHost
         android:id="@+id/tabHost"
         android:layout_width="match_parent"
@@ -44,9 +42,8 @@
                     <ListView
                         android:id="@+id/listView"
                         android:layout_width="fill_parent"
-                        android:layout_weight="1"
-                        android:layout_height="0dp">
-                    </ListView>
+                        android:layout_height="0dp"
+                        android:layout_weight="1"></ListView>
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/fab"
@@ -54,11 +51,11 @@
                         android:layout_height="60dp"
                         android:layout_gravity="bottom|right"
                         android:layout_margin="@dimen/text_margin"
+                        app:backgroundTint="#FFFFFF"
+                        app:fabSize="normal"
                         app:layout_anchor="@id/tab1"
                         app:layout_anchorGravity="bottom|right|end"
-                        app:backgroundTint="#FFFFFF"
                         app:rippleColor="#029FFF"
-                        app:fabSize="normal"
                         app:srcCompat="@android:drawable/ic_input_add" />
                 </com.example.jack.alarm_ow.AlarmView>
 
@@ -67,30 +64,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
-                    <ListView
-                        android:id="@+id/listView2"
+                    <WebView
+                        android:id="@+id/webview"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        />
-
-                </LinearLayout>
-
-
-
-                <LinearLayout
-                    android:id="@+id/tab3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
+                        android:layout_height="match_parent" />
                 </LinearLayout>
             </FrameLayout>
 
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TabWidget>
+                android:layout_height="wrap_content">
+            </TabWidget>
         </LinearLayout>
     </TabHost>
 </android.support.design.widget.CoordinatorLayout>
