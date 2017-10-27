@@ -125,7 +125,7 @@ public class AlarmView extends LinearLayout {
                         adapter.add(ad);
                         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
                                 ad.getTime(),
-                                5 * 60 * 1000,
+                                0 * 60 * 1000,
                                 PendingIntent.getBroadcast(getContext(), ad.getId(), new Intent(getContext(), AlarmReceiver.class), 0));
 
                         saveAlarmList();

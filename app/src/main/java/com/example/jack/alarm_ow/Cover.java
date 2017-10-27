@@ -19,10 +19,9 @@ public class Cover extends AppCompatActivity{ //封面畫面
             @Override
             public void run() {
                 finish();
-
             }
         };
-        new Handler().postDelayed(rab,2000); //3秒後跳主選單
+        new Handler().postDelayed(rab,2000); //2秒後跳主選單
     }
 
     @Override
