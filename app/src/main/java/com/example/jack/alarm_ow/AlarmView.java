@@ -33,7 +33,7 @@ public class AlarmView extends LinearLayout {
 
     public AlarmView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
+        init();
     }
 
     public AlarmView(Context context, @Nullable AttributeSet attrs) {
@@ -67,7 +67,7 @@ public class AlarmView extends LinearLayout {
                 addAlarm();
             }
         });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {//長按清單
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 new AlertDialog.Builder(getContext()).setTitle("操作選項").setItems(new CharSequence[]{"刪除"}
@@ -188,6 +188,7 @@ public class AlarmView extends LinearLayout {
                     date.get(Calendar.DAY_OF_MONTH),
                     date.get(Calendar.HOUR_OF_DAY),
                     date.get(Calendar.MINUTE));
+
 
         }
 

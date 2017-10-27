@@ -1,6 +1,7 @@
 package com.example.jack.alarm_ow;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.TabHost;
@@ -9,6 +10,10 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent it = new Intent();
+        it.setClass(MainActivity.this,Cover.class);//開啟時先放Cover
+        startActivity(it);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

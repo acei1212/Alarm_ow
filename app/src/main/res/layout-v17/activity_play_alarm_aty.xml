@@ -14,19 +14,32 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:text="現在時間"
             android:textColor="#2ab5a6"
-            android:textSize="40sp" />
+            android:textSize="40sp"
+            android:layout_above="@+id/textClock"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="13dp" />
 
         <TextClock
             android:id="@+id/textClock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView"
-            android:layout_centerInParent="true"
             android:textColor="#f30000"
-            android:textSize="32sp" />
+            android:textSize="32sp"
+            android:layout_above="@+id/button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="關閉鬧鐘"
+            android:onClick="clickstop"
+            android:layout_marginBottom="39dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

@@ -3,10 +3,11 @@ package com.example.jack.alarm_ow;
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 public class PlayAlarmAty extends Activity {
-
-
+    Button stop;
     private MediaPlayer mp;
 
     @Override
@@ -21,19 +22,12 @@ public class PlayAlarmAty extends Activity {
 
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
+    public void clickstop(View v) {
+        stop = (Button)findViewById(R.id.button);
         mp.stop();
         finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mp.stop();
         mp.release();
     }
+
 
 }

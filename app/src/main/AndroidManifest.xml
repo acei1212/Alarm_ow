@@ -22,8 +22,11 @@
 
         <receiver android:name=".AlarmReceiver" />
 
+        <activity android:name=".Cover"></activity>
         <activity android:name=".AlarmView" />
-        <activity android:name=".PlayAlarmAty" android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".PlayAlarmAty"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
