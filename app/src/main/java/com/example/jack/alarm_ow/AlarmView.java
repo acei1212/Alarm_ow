@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import static android.content.Context.ALARM_SERVICE;
+
 /**
  * Created by Jack on 2017/10/22.
  */
@@ -29,7 +31,7 @@ public class AlarmView extends LinearLayout {
     private ListView listView;
     private ArrayAdapter<AlarmData> adapter;
     private static final String KEY_ALARM_LIST = "alarmlist";
-    private AlarmManager alarmManager;
+    private AlarmManager am;
 
     public AlarmView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -47,7 +49,7 @@ public class AlarmView extends LinearLayout {
     }
 
     private void init() {
-        alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        am = (AlarmManager) getContext().getSystemService(ALARM_SERVICE);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class AlarmView extends LinearLayout {
         listView = (ListView) findViewById(R.id.listView);
         adapter = new ArrayAdapter<AlarmView.AlarmData>(getContext(), android.R.layout.simple_expandable_list_item_1);
         listView.setAdapter(adapter);
-        adapter.add(new AlarmData(System.currentTimeMillis()));
+
         readSaveAlarmList();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -94,7 +96,7 @@ public class AlarmView extends LinearLayout {
         AlarmData ad = adapter.getItem(position);
         adapter.remove(ad);
         saveAlarmList(); //保存刪除後記錄
-        alarmManager.cancel(PendingIntent.getBroadcast(getContext(),
+        am.cancel(PendingIntent.getBroadcast(getContext(),
                 ad.getId(),
                 new Intent(getContext(),
                         AlarmReceiver.class), 0));
@@ -102,31 +104,29 @@ public class AlarmView extends LinearLayout {
     }
 
     public void addAlarm() {   //新增鬧鐘
-        Calendar c = Calendar.getInstance();
+        final Calendar c = Calendar.getInstance();
 
         new TimePickerDialog(getContext(),
                 new TimePickerDialog.OnTimeSetListener() {
 
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        calendar.set(Calendar.MINUTE, minute);
-                        calendar.set(Calendar.SECOND, 0);
-                        calendar.set(Calendar.MILLISECOND, 0);
+
+                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        c.set(Calendar.MINUTE, minute);
+                        c.set(Calendar.SECOND,0);
+                        c.set(Calendar.MILLISECOND,0);
                         Calendar currentTime = Calendar.getInstance();
 
-                        if (calendar.getTimeInMillis() <= currentTime.getTimeInMillis()) {
-                            calendar.setTimeInMillis(calendar.getTimeInMillis() + 24 * 60 * 60 * 1000);
+                        if (c.getTimeInMillis() <= currentTime.getTimeInMillis()) {
+                            c.setTimeInMillis(c.getTimeInMillis() + 24 * 60 * 60 * 1000);
                             //設定若 新增時間 > 現在時間為正常，< 現在時間便多加1天)
                         }
-
-                        AlarmData ad = new AlarmData(calendar.getTimeInMillis());
+                        PendingIntent pi = PendingIntent.getBroadcast(getContext(), 0, new Intent(getContext(), AlarmReceiver.class), 0);
+                        AlarmData ad = new AlarmData(c.getTimeInMillis());
                         adapter.add(ad);
-                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                                ad.getTime(),
-                                0 * 60 * 1000,
-                                PendingIntent.getBroadcast(getContext(), ad.getId(), new Intent(getContext(), AlarmReceiver.class), 0));
+                        am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(),pi);
+
 
                         saveAlarmList();
 
